@@ -60,6 +60,7 @@ string countries [] = {
     "vanuatu",
     "venezuela",
 };
+// oon
 
 int main () {
     clearConsole();
