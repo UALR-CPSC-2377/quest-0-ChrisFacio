@@ -85,11 +85,12 @@ int main () {
 
 bool isGameDone (string currentGuess) {
     /*  This function determines if the game is over */
-	if(isGameSuccessful(currentGuess) == true )
-    return true; // placeholder
+	
 
-	else if (isGameSuccessful(currentGuess) == false)
+	if (isGameSuccessful(currentGuess) == false)
 		return false;
+	else if (isGameSuccessful(currentGuess) == true) 
+		return true;
 }
 
 bool isGameSuccessful (string currentGuess) {
@@ -97,10 +98,14 @@ bool isGameSuccessful (string currentGuess) {
         guessed all of the characters
     */
 
-	if (correctCountry == currentGuess)
+	if ((correctCountry == currentGuess) || (currentGuessNumber == maxNumberGuesses))
 		return true; // placeholder
 
-	else if (correctCountry != currentGuess)
+
+	//else if (currentGuessNumber == maxNumberGuesses)
+		//return true;
+
+	else if((correctCountry != currentGuess) )
 		return false;
 }
 
@@ -109,11 +114,14 @@ void printGameOver (string currentGuess) {
         This function will print out the game board with a message at the bottom
         "CONGRATS" if the the player was successful and "YOU FAILED" if they werent.
     */
-	if (isGameSuccessful(currentGuess) == true)
+	if ((isGameSuccessful(currentGuess) == true) && (correctCountry == currentGuess))
 	{
 		cout << "CONGRATS" << endl;
 	}
-	
+	else if ((isGameSuccessful(currentGuess) == true) || (currentGuessNumber == maxNumberGuesses)  )
+	{
+		cout << "YOU FAILED" << endl;
+	}
 }
 
 void printGameBoard (string guess) {
@@ -140,9 +148,9 @@ void printGameBoard (string guess) {
 
 	}
 
-	for (int z = 0; z < guess.length(); ++z)
+	for (int z = 0; z < 1; ++z)
 	{
-		cout << "*";
+		cout << currentGuessString;
 	}
 
 	for (int i = 0; i < padding; ++i)
@@ -196,7 +204,7 @@ char processUserInput () {
 	char input;
 	cout << "Enter a character to guess:" << endl;
 	cin >> input;
-	++currentGuessNumber;
+	
     return input; // placeholder
 }
 
@@ -206,13 +214,24 @@ void fillLetters (char guessChar, string secretWord) {
         If any characters in the secretWord match with the guessChar, those
         characters in currentGuessString need to be changed.
     */
+	int numMatches = 0;
+	int tempVal = numMatches;
 	for (int i = 0; i < secretWord.length(); ++i)
 	{
 		if (guessChar == secretWord[i])
 		{
-			secretWord[i] == guessChar;
+			currentGuessString[i] = guessChar;
+			++numMatches;
 		}
 	}
+	
+	if (numMatches != tempVal + 1)
+	{
+		++currentGuessNumber;
+		tempVal = numMatches;
+	}
+
+	
 }
 
 void pauseConsole () {
